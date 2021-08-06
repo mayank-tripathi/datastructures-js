@@ -15,7 +15,15 @@ export class ArrayStackUtil {
       return this.stack.splice(this.stack.length - 1, 1);
     }
 
-    console.error(new Error('No elements available to delete!'));
+    console.error(new Error('No elements available in the stack to delete!'));
+  }
+
+  peek() {
+    if (this.head !== -1) {
+      return this.stack[this.head];
+    }
+
+    console.error(new Error('No elements in the stack!'));    
   }
 
   getStack() {
