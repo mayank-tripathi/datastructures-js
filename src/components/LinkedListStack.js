@@ -1,22 +1,11 @@
 import { useState } from "react";
-import Highlight from "react-highlight";
-import { ArrayStackUtil } from "../ds-utils/array-stack";
+import { SubDetails } from "./SubDetails";
 import { SampleData } from '../ds-utils/sampleData'; 
+import { LinkedListStackUtil } from "../ds-utils/linkedList-stack";
 
-let stack = new ArrayStackUtil();
+let stack = new LinkedListStackUtil();
 
-const SubDetails = ({json, title}) => {
-  return (
-    <div className="col-12 mt-3">
-      <strong>{ title }</strong>
-      <Highlight className="language-javascript mt-3">
-        { JSON.stringify(json, null, '   ') }
-      </Highlight>
-    </div>
-  );
-}
-
-export const ArrayStack = ({ modifyJson }) => {
+export const LinkedListStack = ({ modifyJson }) => {
   const [topStack, setTopStack] = useState(null);
   const [deletedNode, setDeletedNode] = useState(null);
 

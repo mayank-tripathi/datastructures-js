@@ -1,4 +1,5 @@
 import { ArrayStack } from "./ArrayStack";
+import { LinkedListStack } from "./LinkedListStack";
 
 export const DS_MAP = {
   '0': {
@@ -8,6 +9,10 @@ export const DS_MAP = {
   'ASTACK': {
     display: 'Array Stack',
     Component: ArrayStack
+  },
+  'LSTACK': {
+    display: 'Linked List Stack',
+    Component: LinkedListStack
   },
   'QUEUE': {
     display: 'Queue',
