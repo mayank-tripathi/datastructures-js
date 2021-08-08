@@ -1,44 +1,52 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { SubDetails } from "./SubDetails";
-import { SampleData } from '../ds-utils/sampleData'; 
-import { LinkedListStackUtil } from "../ds-utils/linkedList-stack";
+import { SampleData } from '../../ds-utils/sampleData';
 
-let stack = new LinkedListStackUtil();
-
-export const LinkedListStack = ({ modifyJson }) => {
+export const GenericDS = ({ modifyJson, DSInstance, title }) => {
   const [topStack, setTopStack] = useState(null);
   const [deletedNode, setDeletedNode] = useState(null);
+  const [size, setSize] = useState(0);
+
+  useEffect(() => {
+    setSize(DSInstance.size());
+    modifyJson(DSInstance.getJson());
+  }, [DSInstance, modifyJson])
 
   const pushData = () => {
-    stack.push(SampleData.getRandomData());
-    modifyJson(stack.getStack());
+    DSInstance.push(SampleData.getRandomData());
+    modifyJson(DSInstance.getJson());
     setTopStack(null);
     setDeletedNode(null);
+    setSize(DSInstance.size());
   };
 
   const popData = () => {
-    const toReturn = stack.pop();
-    modifyJson(stack.getStack());
+    const toReturn = DSInstance.pop();
+    modifyJson(DSInstance.getJson());
     
     setTopStack(null);
     setDeletedNode(toReturn);
+    setSize(DSInstance.size());
   };
 
   const peekStack = () => {
-    setTopStack(stack.peek());
+    setTopStack(DSInstance.peek());
     setDeletedNode(null);
   };
 
   return (
     <div className="row">
       <div className="col">
-        <h2 className="mb-4">Stack - Implemented Using Array</h2>
+        <h2 className="mb-4">{title}</h2>
         <div className="input-group mb-3">
           <button className="btn btn-outline-secondary" onClick={pushData} type="button" >Push</button>
           <button className="btn btn-outline-secondary" onClick={popData} type="button" >Pop</button>
           <button className="btn btn-outline-secondary" onClick={peekStack} type="button" >Peek</button>
         </div>
         <div className="clearfix"></div>
+        <div className="col my-3">
+          <strong>Size: </strong> {size}
+        </div>
         { topStack && <SubDetails title="Top of the stack:" json={topStack} /> }
         { deletedNode && <SubDetails title="Deleted Element:" json={deletedNode} /> }
       </div>

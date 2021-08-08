@@ -37,24 +37,53 @@ export class LinkedList {
   }
 
   deleteAtHead() {
-    const toReturn = JSON.parse(JSON.stringify(this.head.data));
-
-    this.head = this.head.next;
-
-    return toReturn;
+    if (null !== this.head) {
+      const toReturn = JSON.parse(JSON.stringify(this.head.data));
+      
+      this.head = this.head.next;
+      
+      return toReturn;
+    } else {
+      console.error('No data available to delete!');
+    }
   }
 
   deleteAtTail() {
     let last = this.head;
     let next = this.head.next;
-    while (null !== next.next) {
-      last = next;
-      next = next.next;
+    let toReturn = null;
+    if (last === null && next === null) {
+      console.error('No data available to delete!');
+    } else if (next) { // More than one node
+      while (null !== next.next) {
+        last = next;
+        next = next.next;
+      }
+      toReturn = JSON.parse(JSON.stringify(next.data));
+    
+      last.next = null;
+      this.tail = last;
+    } else { // Just one node
+      toReturn = JSON.parse(JSON.stringify(last.data))
+      this.head = null;
     }
-    const toReturn = JSON.parse(JSON.stringify(next.data));
-    last.next = null;
-    this.tail = last;
 
     return toReturn;
+  }
+
+  size() {
+    if (null !== this.head) {
+      let count = 0;
+      let start = this.head;
+      
+      while (start !== null) {
+        count += 1;
+        start = start.next;
+      }
+
+      return count;
+    } else {
+      return 0;
+    }
   }
 }

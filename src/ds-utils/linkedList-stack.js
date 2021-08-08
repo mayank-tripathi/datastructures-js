@@ -29,7 +29,11 @@ export class LinkedListStackUtil {
     console.error(new Error('No elements in the stack!'));    
   }
 
-  getStack() {
-    return JSON.stringify(this.stack.head, null, '  ');
+  getJson() {
+    return JSON.stringify(this.stack.head || {}, null, '  ');
+  }
+
+  size() {
+    return this.stack.size();
   }
 }

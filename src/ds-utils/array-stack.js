@@ -1,7 +1,7 @@
 export class ArrayStackUtil {
   constructor() {
     this.stack = [];
-    this.head = -1;
+    this.head = null;
   }
 
   push(data) {
@@ -10,7 +10,7 @@ export class ArrayStackUtil {
   }
 
   pop() {
-    if (this.head !== -1) {
+    if (null !== this.head) {
       this.head = this.stack.length - 2;
       return this.stack.splice(this.stack.length - 1, 1);
     }
@@ -19,14 +19,18 @@ export class ArrayStackUtil {
   }
 
   peek() {
-    if (this.head !== -1) {
+    if (null !== this.head) {
       return this.stack[this.head];
     }
 
     console.error(new Error('No elements in the stack!'));    
   }
 
-  getStack() {
+  getJson() {
     return JSON.stringify(this.stack, null, '  ');
+  }
+
+  size() {
+    return this.stack.length;
   }
 }

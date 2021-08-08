@@ -1,25 +1,30 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Highlight from 'react-highlight'
-import { DS_MAP } from './dsList';
+import { DS_MAP } from './common/dsList';
 
 import 'highlight.js/styles/stackoverflow-light.css'
 import './styles.css';
 
 const getDSList = (data) => Object.keys(data).map(key => <option key={key} value={key}>{data[key].display}</option>);
 
+const getDSComponent = (d, setJson) => {
+  const { Component, DSInstance, title } = DS_MAP[d];
+
+  return <Component modifyJson={setJson} DSInstance={ DSInstance} title={ title } />;
+}
+
 const App = () => {
   const [json, setJson] = useState(JSON.stringify({}, null, '\t'));
   const [ds, setDs] = useState('0');
+  const [dsComponent, setDSComponent] = useState(getDSComponent(ds, setJson));
+
+  useEffect(() => {
+    setDSComponent(getDSComponent(ds, setJson));
+  }, [ds])
 
   const changeDs = (e) => {
     setDs(e.target.value);
   };
-
-  const getDSComponent = d => {
-    const Component = DS_MAP[d].Component;
-
-    return <Component modifyJson={setJson} />;
-  }
 
   return (
     <div className="container-fluid">
@@ -36,7 +41,7 @@ const App = () => {
             </select>
           </div>
           <div className="col-12">
-            { getDSComponent(ds) }
+            { dsComponent }
           </div>
         </div>
       </div>
