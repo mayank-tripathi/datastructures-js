@@ -12,25 +12,25 @@ export const DS_MAP = {
   'ASTACK': {
     display: 'Array Stack',
     Component: GenericDS,
-    DSInstance: new ArrayStackUtil(),
+    DSInstance: new ArrayStackUtil(5),
     title: 'Stack Implemented using Array'
   },
   'LSTACK': {
     display: 'Linked List Stack',
     Component: GenericDS,
-    DSInstance: new LinkedListStackUtil(),
+    DSInstance: new LinkedListStackUtil(5),
     title: 'Stack Implemented using Linked List'
   },
   'AQUEUE': {
     display: 'Array Queue',
     Component: GenericDS,
-    DSInstance: new ArrayQueueUtil(),
+    DSInstance: new ArrayQueueUtil(5),
     title: 'Queue Implemented using Array'
   },
   'LQUEUE': {
     display: 'Linked List Queue',
     Component: GenericDS,
-    DSInstance: new LinkedListQueueUtil(),
+    DSInstance: new LinkedListQueueUtil(5),
     title: 'Queue Implemented using LinkedList'
   },
 }

@@ -1,22 +1,36 @@
 export class ArrayQueueUtil {
-  constructor() {
-    this.queue = [];
-    this.front = null;
+  constructor(s) {
+    this.queue = new Array(s);
+    this.capacity = s;
+    this.front = -1;
+    this.rear = -1;
   }
   
   push(data) {
-    this.queue.push(data);
-    this.front = this.queue.length - 1;
+    if (this.rear === this.capacity - 1) {
+      console.error('Queue is full. Please delete an element to insert.');
+    } else {
+      this.front = this.front === -1 ? 0 : this.front;
+      this.rear += 1;
+      this.queue[this.rear] = data;
+    }
   }
 
   pop() {
-    if (this.queue.length === 0) {
+    if (this.front === -1) {
       console.error('No elements in the queue to delete!');
       return null;
     } else {
-      const toReturn = this.queue.splice(0, 1);
+      const toReturn = JSON.parse(JSON.stringify(this.queue[this.front]));
 
-      this.front = this.queue.length - 1;
+      this.queue[this.front] = null;
+      
+      if (this.front === this.rear) {
+        this.front = -1;
+        this.rear = -1;
+      } else {
+        this.front += 1; 
+      }
 
       return toReturn;
     }
@@ -27,7 +41,15 @@ export class ArrayQueueUtil {
   }
 
   size() {
-    return this.queue.length;
+    let s = 0;
+
+    for (let i = 0; i < this.capacity; i += 1) {
+      if (this.queue[i]) {
+        s += 1;
+      }
+    }
+
+    return s;
   }
 
   getJson() {

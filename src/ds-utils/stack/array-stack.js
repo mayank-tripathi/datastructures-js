@@ -1,21 +1,31 @@
 export class ArrayStackUtil {
-  constructor() {
-    this.stack = [];
-    this.head = null;
+  constructor(s) {
+    this.stack = new Array(s);
+    this.capacity = s;
+    this.head = -1;
   }
 
   push(data) {
-    this.stack.push(data);
-    this.head = this.stack.length - 1;
+    if (this.head === this.capacity - 1) {
+      console.error('Stack is full. Please delete an element first to insert a new one.');
+    } else {
+      this.head += 1;
+      this.stack[this.head] = data;
+    }
   }
 
   pop() {
-    if (null !== this.head) {
-      this.head = this.stack.length - 2;
-      return this.stack.splice(this.stack.length - 1, 1);
+    if (this.head !== -1) {
+      const toReturn = JSON.parse(JSON.stringify(this.stack[this.head]));
+      
+      this.stack[this.head] = null;
+      this.head -= 1;
+      
+      return toReturn;
     }
 
     console.error(new Error('No elements available in the stack to delete!'));
+    return null;
   }
 
   peek() {
@@ -31,6 +41,14 @@ export class ArrayStackUtil {
   }
 
   size() {
-    return this.stack.length;
+    let s = 0;
+
+    for (let i = 0; i < this.capacity; i += 1) {
+      if (this.stack[i]) {
+        s += 1;
+      }
+    }
+
+    return s;
   }
 }

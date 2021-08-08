@@ -1,17 +1,22 @@
 import { LinkedList } from "../common/LinkedList";
 
 export class LinkedListQueueUtil {
-  constructor() {
+  constructor(s) {
     this.queue = new LinkedList();
+    this.capacity = s;
     this.front = null;
     this.rear = null;
   }
   
   push(data) {
-    this.queue.insertAtTail(data);
+    if (this.size() === this.capacity) {
+      console.error('Queue is full. Please delete an element to insert.');
+    } else {
+      this.queue.insertAtTail(data);
 
-    this.front = this.queue.head;
-    this.rear = this.queue.tail;
+      this.front = this.queue.head;
+      this.rear = this.queue.tail;
+    }
   }
 
   pop() {

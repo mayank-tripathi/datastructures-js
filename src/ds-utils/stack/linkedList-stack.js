@@ -1,14 +1,19 @@
 import { LinkedList } from "../common/LinkedList";
 
 export class LinkedListStackUtil {
-  constructor() {
+  constructor(s) {
     this.stack = new LinkedList();
+    this.capacity = s;
     this.head = null;
   }
 
   push(data) {
-    this.stack.insertAtTail(data);
-    this.head = this.stack.tail;
+    if (this.size() === this.capacity) {
+      console.error('Stack is full. Please delete an element first to insert a new one.');
+    } else {
+      this.stack.insertAtTail(data);
+      this.head = this.stack.tail;
+    }
   }
 
   pop() {

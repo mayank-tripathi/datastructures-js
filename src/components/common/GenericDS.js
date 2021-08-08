@@ -12,6 +12,7 @@ export const GenericDS = ({ modifyJson, DSInstance, title }) => {
     modifyJson(DSInstance.getJson());
     setTopStack(null);
     setDeletedNode(null);
+    setSize(0);
   }, [DSInstance, modifyJson])
 
   const pushData = () => {
