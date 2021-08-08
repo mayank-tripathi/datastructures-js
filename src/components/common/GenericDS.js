@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { SubDetails } from "./SubDetails";
-import { SampleData } from '../../ds-utils/sampleData';
+import { SampleData } from '../../ds-utils/common/sampleData';
 
 export const GenericDS = ({ modifyJson, DSInstance, title }) => {
   const [topStack, setTopStack] = useState(null);
@@ -10,6 +10,8 @@ export const GenericDS = ({ modifyJson, DSInstance, title }) => {
   useEffect(() => {
     setSize(DSInstance.size());
     modifyJson(DSInstance.getJson());
+    setTopStack(null);
+    setDeletedNode(null);
   }, [DSInstance, modifyJson])
 
   const pushData = () => {

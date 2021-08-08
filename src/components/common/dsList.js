@@ -1,6 +1,7 @@
-import { ArrayQueueUtil } from "../../ds-utils/array-queue";
-import { ArrayStackUtil } from "../../ds-utils/array-stack";
-import { LinkedListStackUtil } from "../../ds-utils/linkedList-stack";
+import { ArrayQueueUtil } from "../../ds-utils/queue/array-queue";
+import { LinkedListQueueUtil } from "../../ds-utils/queue/linkedlist-queue";
+import { ArrayStackUtil } from "../../ds-utils/stack/array-stack";
+import { LinkedListStackUtil } from "../../ds-utils/stack/linkedList-stack";
 import { GenericDS } from "./GenericDS";
 
 export const DS_MAP = {
@@ -25,5 +26,11 @@ export const DS_MAP = {
     Component: GenericDS,
     DSInstance: new ArrayQueueUtil(),
     title: 'Queue Implemented using Array'
+  },
+  'LQUEUE': {
+    display: 'Linked List Queue',
+    Component: GenericDS,
+    DSInstance: new LinkedListQueueUtil(),
+    title: 'Queue Implemented using LinkedList'
   },
 }
