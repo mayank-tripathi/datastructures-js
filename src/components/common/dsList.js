@@ -1,6 +1,7 @@
 import { ArrayCircularQueueUtil } from "../../ds-utils/queue/array-circular-queue.js";
 import { ArrayDoubleEndedQueueUtil } from "../../ds-utils/queue/array-double-ended-queue.js";
 import { ArrayQueueUtil } from "../../ds-utils/queue/array-queue";
+import { LinkedListDoubleEndedQueueUtil } from "../../ds-utils/queue/linkedlist-double-ended-queue.js";
 import { LinkedListQueueUtil } from "../../ds-utils/queue/linkedlist-queue";
 import { ArrayStackUtil } from "../../ds-utils/stack/array-stack";
 import { LinkedListStackUtil } from "../../ds-utils/stack/linkedList-stack";
@@ -47,5 +48,11 @@ export const DS_MAP = {
     Component: DoubleEndedQueue,
     DSInstance: new ArrayDoubleEndedQueueUtil(5),
     title: 'Double Ended Queue using Array'
+  },
+  'LDQUEUE': {
+    display: 'Double Ended Queue - LinkedList',
+    Component: DoubleEndedQueue,
+    DSInstance: new LinkedListDoubleEndedQueueUtil(5),
+    title: 'Double Ended Queue using LinkedList'
   },
 }
