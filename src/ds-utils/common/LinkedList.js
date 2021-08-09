@@ -41,6 +41,10 @@ export class LinkedList {
       const toReturn = JSON.parse(JSON.stringify(this.head.data));
       
       this.head = this.head.next;
+
+      if (null === this.head) { // Was last node
+        this.tail = null;
+      }
       
       return toReturn;
     } else {
@@ -50,7 +54,7 @@ export class LinkedList {
 
   deleteAtTail() {
     let last = this.head;
-    let next = this.head.next;
+    let next = last && this.head.next;
     let toReturn = null;
     if (last === null && next === null) {
       console.error('No data available to delete!');
@@ -66,6 +70,7 @@ export class LinkedList {
     } else { // Just one node
       toReturn = JSON.parse(JSON.stringify(last.data))
       this.head = null;
+      this.tail = null;
     }
 
     return toReturn;
