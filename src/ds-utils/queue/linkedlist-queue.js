@@ -42,8 +42,8 @@ export class LinkedListQueueUtil {
   }
 
   peek() {
-    if (this.rear !== null) {
-      return this.rear.data;
+    if (this.front !== null) {
+      return this.front.data;
     }
 
     return false;

@@ -1,61 +1,113 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { SubDetails } from "../common/SubDetails";
 import { SampleData } from '../../ds-utils/common/sampleData';
+import { GlobalContext } from "../../store/global-store";
 
 export const DoubleEndedQueue = ({ modifyJson, DSInstance, title }) => {
-  const [topStack, setTopStack] = useState(null);
+  const [topElement, setTopElement] = useState(null);
   const [deletedNode, setDeletedNode] = useState(null);
   const [size, setSize] = useState(0);
+  const { showError, hideError, error } = useContext(GlobalContext)
 
   useEffect(() => {
     setSize(DSInstance.size());
     modifyJson(DSInstance.getJson());
-    setTopStack(null);
+    setTopElement(null);
     setDeletedNode(null);
     setSize(0);
-  }, [DSInstance, modifyJson])
+    hideError();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [DSInstance]);
+
+  const resetError = () => {
+    if (null !== error) {
+      hideError();
+    }
+  };
 
   const pushDataAtTail = () => {
-    DSInstance.pushAtRear(SampleData.getRandomData());
+    const successful = DSInstance.pushAtRear(SampleData.getRandomData());
+
+    if (!successful) {
+      showError('Unable to push. No space at Tail end.');
+    } else {
+      resetError();
+    }
+
     modifyJson(DSInstance.getJson());
-    setTopStack(null);
+    setTopElement(null);
     setDeletedNode(null);
     setSize(DSInstance.size());
   };
 
   const pushDataAtFront = () => {
-    DSInstance.pushAtFront(SampleData.getRandomData());
+    const successful = DSInstance.pushAtFront(SampleData.getRandomData());
+
+    if (!successful) {
+      showError('Unable to push. No space at Front end.');
+    } else {
+      resetError();
+    }
+
     modifyJson(DSInstance.getJson());
-    setTopStack(null);
+    setTopElement(null);
     setDeletedNode(null);
     setSize(DSInstance.size());
   };
 
   const popDataAtTail = () => {
     const toReturn = DSInstance.popAtRear();
+
+    if (!toReturn) {
+      showError('Empty queue. Unable to delete.');
+    } else {
+      resetError();
+    }
+
     modifyJson(DSInstance.getJson());
-    
-    setTopStack(null);
+    setTopElement(null);
     setDeletedNode(toReturn);
     setSize(DSInstance.size());
   };
 
   const popDataAtFront = () => {
     const toReturn = DSInstance.popAtFront();
+
+    if (!toReturn) {
+      showError('Empty queue. Unable to delete.');
+    } else {
+      resetError();
+    }
+
     modifyJson(DSInstance.getJson());
-    
-    setTopStack(null);
+    setTopElement(null);
     setDeletedNode(toReturn);
     setSize(DSInstance.size());
   };
 
   const peekFront = () => {
-    setTopStack(DSInstance.peekFront());
+    const elementToShow = DSInstance.peekFront()
+
+    if (!elementToShow) {
+      showError('Empty queue. Unable to peek at Front.');
+    } else {
+      resetError();
+    }
+
+    setTopElement(elementToShow || {});
     setDeletedNode(null);
   };
 
   const peekTail = () => {
-    setTopStack(DSInstance.peekRear());
+    const elementToShow = DSInstance.peekRear();
+
+    if (!elementToShow) {
+      showError('Empty queue. Unable to peek at Tail.');
+    } else {
+      resetError();
+    }
+
+    setTopElement(elementToShow || {});
     setDeletedNode(null);
   };
 
@@ -79,7 +131,7 @@ export const DoubleEndedQueue = ({ modifyJson, DSInstance, title }) => {
         <div className="col my-3">
           <strong>Size: </strong> {size}
         </div>
-        { topStack && <SubDetails title="Top of the stack:" json={topStack} /> }
+        { topElement && <SubDetails title="Top of the stack:" json={topElement} /> }
         { deletedNode && <SubDetails title="Deleted Element:" json={deletedNode} /> }
       </div>
     </div>

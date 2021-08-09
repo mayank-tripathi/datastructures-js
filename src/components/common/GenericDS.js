@@ -15,7 +15,9 @@ export const GenericDS = ({ modifyJson, DSInstance, title }) => {
     setTopElement(null);
     setDeletedNode(null);
     setSize(0);
-  }, [DSInstance, modifyJson])
+    hideError();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [DSInstance])
 
   const resetError = () => {
     if (null !== error) {
