@@ -31,7 +31,7 @@ export class LinkedListStackUtil {
       return this.head.data;
     }
 
-    console.error(new Error('No elements in the stack!'));    
+    return null; 
   }
 
   getJson() {

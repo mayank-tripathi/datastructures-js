@@ -73,11 +73,19 @@ export class LinkedListDoubleEndedQueueUtil {
   }
 
   peekFront() {
-    return this.front.data;
+    if (null !== this.front) {
+      return this.front.data;
+    }
+
+    return null;
   }
 
   peekRear() {
-    return this.rear.data;
+    if (null !== this.rear) {
+      return this.rear.data;
+    }
+
+    return null;
   }
 
   size() {

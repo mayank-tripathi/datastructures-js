@@ -71,11 +71,19 @@ export class ArrayDoubleEndedQueueUtil {
   }
 
   peekFront() {
-    return this.queue[this.front];
+    if (this.front !== -1) {
+      return this.queue[this.front];
+    }
+
+    return null;
   }
 
   peekRear() {
-    return this.queue[this.rear];
+    if (this.rear !== -1) {
+      return this.queue[this.rear];
+    }
+    
+    return null;
   }
 
   size() {

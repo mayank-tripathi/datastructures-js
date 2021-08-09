@@ -37,7 +37,11 @@ export class ArrayQueueUtil {
   }
 
   peek() {
-    return this.queue[this.front];
+    if (this.front !== -1) {
+      return this.queue[this.front];
+    }
+
+    return null;
   }
 
   size() {

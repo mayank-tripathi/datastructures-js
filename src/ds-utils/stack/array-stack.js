@@ -33,7 +33,7 @@ export class ArrayStackUtil {
       return this.stack[this.head];
     }
 
-    console.error(new Error('No elements in the stack!'));    
+    return null;
   }
 
   getJson() {

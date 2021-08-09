@@ -43,7 +43,7 @@ export class LinkedListQueueUtil {
       return this.rear.data;
     }
 
-    console.error('No elements in the queue!');
+    return null;
   }
 
   size() {
