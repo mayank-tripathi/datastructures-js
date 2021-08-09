@@ -11,6 +11,7 @@ export class LinkedListDoubleEndedQueueUtil {
   pushAtRear(data) {
     if (this.size() === this.capacity) {
       console.error('Queue is full.');
+      return false;
     } else {
       const wasFirst = this.size() === 0;
       
@@ -20,12 +21,15 @@ export class LinkedListDoubleEndedQueueUtil {
       if (wasFirst) {
         this.front = this.queue.head;
       }
+
+      return true;
     }
   }
 
   pushAtFront(data) {
     if (this.size() === this.capacity) {
       console.error('Queue is full.');
+      return false;
     } else {
       const wasFirst = this.size() === 0;
 
@@ -35,13 +39,15 @@ export class LinkedListDoubleEndedQueueUtil {
       if (wasFirst) {
         this.rear = this.queue.tail;
       }
+
+      return false;
     }
   }
 
   popAtRear() {
     if (this.size() === 0) {
       console.error('No elements in the queue to delete!');
-      return null;
+      return false;
     } else {
       const wasLast = this.size() === 1;
       const toReturn = this.queue.deleteAtTail();
@@ -58,7 +64,7 @@ export class LinkedListDoubleEndedQueueUtil {
   popAtFront() {
     if (this.size() === 0) {
       console.error('No elements in the queue to delete!');
-      return null;
+      return false;
     } else {
       const wasLast = this.size() === 1;
       const toReturn = this.queue.deleteAtHead();
@@ -77,7 +83,7 @@ export class LinkedListDoubleEndedQueueUtil {
       return this.front.data;
     }
 
-    return null;
+    return false;
   }
 
   peekRear() {
@@ -85,7 +91,7 @@ export class LinkedListDoubleEndedQueueUtil {
       return this.rear.data;
     }
 
-    return null;
+    return false;
   }
 
   size() {

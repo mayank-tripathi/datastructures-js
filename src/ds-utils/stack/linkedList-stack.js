@@ -10,9 +10,11 @@ export class LinkedListStackUtil {
   push(data) {
     if (this.size() === this.capacity) {
       console.error('Stack is full. Please delete an element first to insert a new one.');
+      return false;
     } else {
       this.stack.insertAtTail(data);
       this.head = this.stack.tail;
+      return true;
     }
   }
 
@@ -23,7 +25,8 @@ export class LinkedListStackUtil {
       return deletedNode;
     }
 
-    console.error(new Error('No elements available in the stack to delete!'));
+    console.error('No elements available in the stack to delete!');
+    return false;
   }
 
   peek() {
@@ -31,7 +34,7 @@ export class LinkedListStackUtil {
       return this.head.data;
     }
 
-    return null; 
+    return false; 
   }
 
   getJson() {

@@ -11,18 +11,21 @@ export class LinkedListQueueUtil {
   push(data) {
     if (this.size() === this.capacity) {
       console.error('Queue is full. Please delete an element to insert.');
+      return false;
     } else {
       this.queue.insertAtTail(data);
 
       this.front = this.queue.head;
       this.rear = this.queue.tail;
+
+      return true;
     }
   }
 
   pop() {
     if (this.size() === 0) {
       console.error('No elements in the queue to delete!');
-      return null;
+      return false;
     } else {
       const wasLastElement = this.size() === 1;
       const toReturn = this.queue.deleteAtHead();
@@ -43,7 +46,7 @@ export class LinkedListQueueUtil {
       return this.rear.data;
     }
 
-    return null;
+    return false;
   }
 
   size() {

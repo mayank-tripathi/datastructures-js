@@ -9,16 +9,19 @@ export class ArrayDoubleEndedQueueUtil {
   pushAtRear(data) {
     if (this.rear === this.capacity - 1) {
       console.error('No place at the Rear End. Please try Front.');
+      return false;
     } else {
       this.front = this.front === -1 ? 0 : this.front;
       this.rear += 1;
       this.queue[this.rear] = data;
+      return true;
     }
   }
 
   pushAtFront(data) {
     if (this.front === 0) {
       console.error('No place at the Front End. Please try Rear.');
+      return false;
     } else {
       if (this.front === -1) {
         this.front = 0;
@@ -27,13 +30,14 @@ export class ArrayDoubleEndedQueueUtil {
       }
       
       this.queue[this.front] = data;
+      return true;
     }
   }
 
   popAtRear() {
     if (this.rear === -1) {
       console.error('No elements in the queue to delete!');
-      return null;
+      return false;
     } else {
       const toReturn = JSON.parse(JSON.stringify(this.queue[this.rear]));
 
@@ -53,7 +57,7 @@ export class ArrayDoubleEndedQueueUtil {
   popAtFront() {
     if (this.front === -1) {
       console.error('No elements in the queue to delete!');
-      return null;
+      return false;
     } else {
       const toReturn = JSON.parse(JSON.stringify(this.queue[this.front]));
 
@@ -75,7 +79,7 @@ export class ArrayDoubleEndedQueueUtil {
       return this.queue[this.front];
     }
 
-    return null;
+    return false;
   }
 
   peekRear() {
@@ -83,7 +87,7 @@ export class ArrayDoubleEndedQueueUtil {
       return this.queue[this.rear];
     }
     
-    return null;
+    return false;
   }
 
   size() {

@@ -8,9 +8,11 @@ export class ArrayStackUtil {
   push(data) {
     if (this.head === this.capacity - 1) {
       console.error('Stack is full. Please delete an element first to insert a new one.');
+      return false;
     } else {
       this.head += 1;
       this.stack[this.head] = data;
+      return true;
     }
   }
 
@@ -24,8 +26,8 @@ export class ArrayStackUtil {
       return toReturn;
     }
 
-    console.error(new Error('No elements available in the stack to delete!'));
-    return null;
+    console.error('No elements available in the stack to delete!');
+    return false;
   }
 
   peek() {
@@ -33,7 +35,7 @@ export class ArrayStackUtil {
       return this.stack[this.head];
     }
 
-    return null;
+    return false;
   }
 
   getJson() {

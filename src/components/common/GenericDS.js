@@ -1,24 +1,39 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { SubDetails } from "./SubDetails";
 import { SampleData } from '../../ds-utils/common/sampleData';
+import { GlobalContext } from "../../store/global-store";
 
 export const GenericDS = ({ modifyJson, DSInstance, title }) => {
-  const [topStack, setTopStack] = useState(null);
+  const [topElement, setTopElement] = useState(null);
   const [deletedNode, setDeletedNode] = useState(null);
   const [size, setSize] = useState(0);
+  const { error, showError, hideError } = useContext(GlobalContext);
 
   useEffect(() => {
     setSize(DSInstance.size());
     modifyJson(DSInstance.getJson());
-    setTopStack(null);
+    setTopElement(null);
     setDeletedNode(null);
     setSize(0);
   }, [DSInstance, modifyJson])
 
+  const resetError = () => {
+    if (null !== error) {
+      hideError();
+    }
+  };
+
   const pushData = () => {
-    DSInstance.push(SampleData.getRandomData());
+    const successful = DSInstance.push(SampleData.getRandomData());
+
+    if (!successful) {
+      showError('Unable to push. Probably no space.');
+    } else {
+      resetError();
+    }
+
     modifyJson(DSInstance.getJson());
-    setTopStack(null);
+    setTopElement(null);
     setDeletedNode(null);
     setSize(DSInstance.size());
   };
@@ -26,14 +41,28 @@ export const GenericDS = ({ modifyJson, DSInstance, title }) => {
   const popData = () => {
     const toReturn = DSInstance.pop();
     modifyJson(DSInstance.getJson());
+
+    if (!toReturn) {
+      showError('No elements available to delete!');
+    } else {
+      resetError();
+    }
     
-    setTopStack(null);
-    setDeletedNode(toReturn);
+    setTopElement(null);
+    setDeletedNode(toReturn || {});
     setSize(DSInstance.size());
   };
 
   const peekStack = () => {
-    setTopStack(DSInstance.peek());
+    const elementToShow = DSInstance.peek()
+
+    if (!elementToShow) {
+      showError('No elements available to show!');
+    } else {
+      resetError();
+    }
+
+    setTopElement(elementToShow || {});
     setDeletedNode(null);
   };
 
@@ -50,7 +79,7 @@ export const GenericDS = ({ modifyJson, DSInstance, title }) => {
         <div className="col my-3">
           <strong>Size: </strong> {size}
         </div>
-        { topStack && <SubDetails title="Top of the stack:" json={topStack} /> }
+        { topElement && <SubDetails title="Top of the stack:" json={topElement} /> }
         { deletedNode && <SubDetails title="Deleted Element:" json={deletedNode} /> }
       </div>
     </div>

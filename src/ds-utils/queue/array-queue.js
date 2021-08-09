@@ -9,17 +9,19 @@ export class ArrayQueueUtil {
   push(data) {
     if (this.rear === this.capacity - 1) {
       console.error('Queue is full. Please delete an element to insert.');
+      return false;
     } else {
       this.front = this.front === -1 ? 0 : this.front;
       this.rear += 1;
       this.queue[this.rear] = data;
+      return true;
     }
   }
 
   pop() {
     if (this.front === -1) {
       console.error('No elements in the queue to delete!');
-      return null;
+      return false;
     } else {
       const toReturn = JSON.parse(JSON.stringify(this.queue[this.front]));
 
@@ -41,7 +43,7 @@ export class ArrayQueueUtil {
       return this.queue[this.front];
     }
 
-    return null;
+    return false;
   }
 
   size() {
