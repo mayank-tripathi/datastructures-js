@@ -8,6 +8,10 @@
   padding: 10px;
 }
 
+.codeContainer .graphContainer {
+  background: #f6f6f6;
+}
+
 .codeContainer .graphContainer svg {
   max-width: 100%;
   padding: 10px;

@@ -1,5 +1,5 @@
 import * as d3 from "d3";
-import { createRef, useEffect, useLayoutEffect, useState } from "react";
+import { createRef, useCallback, useEffect, useLayoutEffect, useState } from "react";
 
 const tree = (data, width) => {
   const root = d3.hierarchy(data);
@@ -81,9 +81,9 @@ export const TreeGraph = ({ treeData }) => {
   const [width, setWidth] = useState(window.innerWidth);
   const tooltipRef = createRef();
 
-  const hideTooltip = () => {
+  const hideTooltip = useCallback(() => {
     tooltipRef.current.style = "opacity: 0";
-  };
+  }, [tooltipRef]);
 
   const functionHandler = function () {
     const w = this.innerWidth;
@@ -112,7 +112,7 @@ export const TreeGraph = ({ treeData }) => {
       d3.select("#tooltip")
         .style("left", d.pageX + 15 + "px")
         .style("right", "auto")
-        .style("top", d.pageY + "px")
+        .style("top", d.pageY + 15 + "px")
         .style("opacity", 1)
         .html(
           `<pre>${JSON.stringify(
@@ -122,7 +122,9 @@ export const TreeGraph = ({ treeData }) => {
           )}</pre>`
         );
     });
-  }, [treeDiagram]);
+
+    hideTooltip();
+  }, [treeDiagram, hideTooltip]);
 
   return (
     <>
