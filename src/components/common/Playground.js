@@ -20,7 +20,6 @@ export const Playground = () => {
   const [visualizer, setVisualizer] = useState('');
 
   useEffect(() => {
-    console.log(ds);
     setDSComponent(getDSComponent(ds, setJson));
     setVisualizer(DS_MAP[ds].visualizer);
   }, [ds])

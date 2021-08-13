@@ -1,10 +1,11 @@
-import { v5 as uuidv5 } from 'uuid';
+import { v4 as uuidv4 } from 'uuid';
 
 class Node {
+
   constructor(d) {
-    this.id = uuidv5();
     this.data = d;
     this.children = [];
+    this.id = uuidv4();
   }
 }
 
@@ -33,5 +34,25 @@ export class GeneralTreeUtil {
         return false;
       }
     }
+  }
+
+  getJson(head = this.head, json = {}) {
+    if (null !== head) {
+      json.name = head.data.name;
+      json.value = { id: head.id, ...head.data };
+      json.children = [];
+
+      if (Array.isArray(head.children) && head.children.length) {
+        head.children.forEach(child => {
+          let newChild = {};
+          json.children.push(newChild);
+          this.getJson(child, newChild);
+        });
+      }
+      
+      return json;
+    }
+    
+    return false;
   }
 }

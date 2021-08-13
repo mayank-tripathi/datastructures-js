@@ -5,7 +5,9 @@ import { LinkedListDoubleEndedQueueUtil } from "../../ds-utils/queue/linkedlist-
 import { LinkedListQueueUtil } from "../../ds-utils/queue/linkedlist-queue";
 import { ArrayStackUtil } from "../../ds-utils/stack/array-stack";
 import { LinkedListStackUtil } from "../../ds-utils/stack/linkedList-stack";
+import { GeneralTreeUtil } from "../../ds-utils/tree/general-tree.js";
 import { DoubleEndedQueue } from "../queue/DoubleEndedQueue.js";
+import { BasicTree } from "../tree/BasicTree.js";
 import { GenericDS } from "./GenericDS";
 
 export const DS_MAP = {
@@ -65,4 +67,11 @@ export const DS_MAP = {
     title: 'Double Ended Queue using LinkedList',
     visualizer: 'CODE'
   },
+  'BTREE': {
+    display: 'Basic Tree',
+    Component: BasicTree,
+    DSInstance: new GeneralTreeUtil(),
+    title: 'General Tree (multiple children)',
+    visualizer: 'GRAPH'
+  }
 }

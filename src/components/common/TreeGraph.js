@@ -3,7 +3,7 @@ import { createRef, useEffect, useLayoutEffect, useState } from "react";
 
 const tree = (data, width) => {
   const root = d3.hierarchy(data);
-  root.dx = 30;
+  root.dx = 80;
   root.dy = width / (root.height + 1);
   return d3.tree().nodeSize([root.dx, root.dy])(root);
 };
@@ -24,15 +24,14 @@ const createTree = (data, width) => {
 
   const g = svg
     .append("g")
-    .attr("font-family", "sans-serif")
-    .attr("font-size", 14)
+    .attr("font-size", '1.5em')
     .attr("transform", `translate(${root.dy / 3},${root.dx - x0})`);
 
   g.append("g")
     .attr("fill", "none")
     .attr("stroke", "#555")
-    .attr("stroke-opacity", 0.4)
-    .attr("stroke-width", 1.5)
+    .attr("stroke-opacity", 0.5)
+    .attr("stroke-width", 2)
     .selectAll("path")
     .data(root.links())
     .join("path")
@@ -58,10 +57,7 @@ const createTree = (data, width) => {
     .attr("fill", (d) => (d.children ? "#555" : "#999"))
     .attr("r", 10)
     .text(function (d) {
-      const context = {
-        name: d.data.name,
-        value: d.data.value
-      };
+      const context = d.data.value;
       this.dataset.context = JSON.stringify(context);
       return "";
     });
@@ -69,18 +65,18 @@ const createTree = (data, width) => {
   node
     .append("text")
     .attr("dy", "0.31em")
-    .attr("x", (d) => (d.children ? -15 : 15))
+    .attr("x", (d) => (d.children ? -18 : 18))
     .attr("text-anchor", (d) => (d.children ? "end" : "start"))
     .text((d) => d.data.name)
     .clone(true)
     .lower()
-    .attr("stroke", "white");
+    .attr("stroke", "white")
+    .attr("stroke-width", 3);
 
   return svg.node();
 };
 
 export const TreeGraph = ({ treeData }) => {
-  const [data] = useState(treeData);
   const [treeDiagram, setTreeDiagram] = useState({ __html: "" });
   const [width, setWidth] = useState(window.innerWidth);
   const tooltipRef = createRef();
@@ -102,12 +98,12 @@ export const TreeGraph = ({ treeData }) => {
   }, []);
 
   useLayoutEffect(() => {
-    const diagram = createTree(data, width);
+    const diagram = createTree(treeData, width);
 
     setTreeDiagram({
       __html: diagram.outerHTML
     });
-  }, [data, width]);
+  }, [width, treeData]);
 
   useLayoutEffect(() => {
     d3.selectAll("circle").on("click", function (d) {
@@ -115,6 +111,7 @@ export const TreeGraph = ({ treeData }) => {
 
       d3.select("#tooltip")
         .style("left", d.pageX + 15 + "px")
+        .style("right", "auto")
         .style("top", d.pageY + "px")
         .style("opacity", 1)
         .html(
@@ -131,6 +128,7 @@ export const TreeGraph = ({ treeData }) => {
     <>
       <div
         id="graphContainer"
+        className="graphContainer"
         onClick={hideTooltip}
         dangerouslySetInnerHTML={treeDiagram}
       />

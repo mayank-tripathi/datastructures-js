@@ -2,10 +2,21 @@
   margin: 0;
 }
 
-.codeContainer pre code {
+.codeContainer pre code{
   max-height: 100vh;
   height: 100vh;
   padding: 10px;
+}
+
+.codeContainer .graphContainer svg {
+  max-width: 100%;
+  padding: 10px;
+  height: 100vh;
+  max-height: 100vh;
+}
+
+.codeContainer .graphContainer svg circle {
+  cursor: pointer;
 }
 
 .tooltip {
@@ -15,10 +26,11 @@
   border-radius: 5px;
   position: absolute;
   top: 50vh;
-  left: 0;
+  left: auto;
+  right: 100%;
   background: #fff;
   opacity: 0;
-  transition: opacity ease 1s, left ease 1s, top ease 1s;
+  transition: opacity ease 1s, left ease 0.5s, top ease 0.5s, right ease 0.5s;
 }
 
 .tooltip pre {
