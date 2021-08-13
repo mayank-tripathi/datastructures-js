@@ -11,48 +11,58 @@ import { GenericDS } from "./GenericDS";
 export const DS_MAP = {
   '0': {
     display: 'Select a Datastructure',
-    Component: () => <></>
+    Component: () => <></>,
+    DSInstance: null,
+    title: '',
+    visualizer: ''
   },
   'ASTACK': {
     display: 'Stack - Array',
     Component: GenericDS,
     DSInstance: new ArrayStackUtil(5),
-    title: 'Stack using Array'
+    title: 'Stack using Array',
+    visualizer: 'CODE'
   },
   'LSTACK': {
     display: 'Stack - Linked List',
     Component: GenericDS,
     DSInstance: new LinkedListStackUtil(5),
-    title: 'Stack using Linked List'
+    title: 'Stack using Linked List',
+    visualizer: 'CODE'
   },
   'AQUEUE': {
     display: 'Simple Queue - Array',
     Component: GenericDS,
     DSInstance: new ArrayQueueUtil(5),
-    title: 'Simple Queue using Array'
+    title: 'Simple Queue using Array',
+    visualizer: 'CODE'
   },
   'LQUEUE': {
     display: 'Simple Queue - Linked List',
     Component: GenericDS,
     DSInstance: new LinkedListQueueUtil(5),
-    title: 'Simple Queue using LinkedList'
+    title: 'Simple Queue using LinkedList',
+    visualizer: 'CODE'
   },
   'ACQUEUE': {
     display: 'Circular Queue - Array',
     Component: GenericDS,
     DSInstance: new ArrayCircularQueueUtil(5),
-    title: 'Circular Queue using Array'
+    title: 'Circular Queue using Array',
+    visualizer: 'CODE'
   },
   'ADQUEUE': {
     display: 'Double Ended Queue - Array',
     Component: DoubleEndedQueue,
     DSInstance: new ArrayDoubleEndedQueueUtil(5),
-    title: 'Double Ended Queue using Array'
+    title: 'Double Ended Queue using Array',
+    visualizer: 'CODE'
   },
   'LDQUEUE': {
     display: 'Double Ended Queue - LinkedList',
     Component: DoubleEndedQueue,
     DSInstance: new LinkedListDoubleEndedQueueUtil(5),
-    title: 'Double Ended Queue using LinkedList'
+    title: 'Double Ended Queue using LinkedList',
+    visualizer: 'CODE'
   },
 }

@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react';
-import Highlight from 'react-highlight'
 import { DS_MAP } from './dsList';
 
 import 'highlight.js/styles/stackoverflow-light.css'
 import '../styles.css';
+import { CodeVisualizer } from './CodeVisualizer';
 
 const getDSList = (data) => Object.keys(data).map(key => <option key={key} value={key}>{data[key].display}</option>);
 
@@ -17,9 +17,12 @@ export const Playground = () => {
   const [json, setJson] = useState(JSON.stringify({}, null, '\t'));
   const [ds, setDs] = useState('0');
   const [dsComponent, setDSComponent] = useState(getDSComponent(ds, setJson));
+  const [visualizer, setVisualizer] = useState('');
 
   useEffect(() => {
+    console.log(ds);
     setDSComponent(getDSComponent(ds, setJson));
+    setVisualizer(DS_MAP[ds].visualizer);
   }, [ds])
 
   const changeDs = (e) => {
@@ -29,9 +32,7 @@ export const Playground = () => {
   return (
     <div className="row">
       <div className="col-7 p-0 codeContainer">
-        <Highlight className="language-javascript">
-          { json }
-        </Highlight>
+        <CodeVisualizer visualizer={visualizer} data={json} />
       </div>
       <div className="col-5">
         <div className="col-12 my-3">

@@ -1,4 +1,26 @@
+.codeContainer pre {
+  margin: 0;
+}
+
 .codeContainer pre code {
   max-height: 100vh;
   height: 100vh;
+  padding: 10px;
+}
+
+.tooltip {
+  display: inline-block;
+  padding: 10px;
+  border: #333 dashed 1px;
+  border-radius: 5px;
+  position: absolute;
+  top: 50vh;
+  left: 0;
+  background: #fff;
+  opacity: 0;
+  transition: opacity ease 1s, left ease 1s, top ease 1s;
+}
+
+.tooltip pre {
+  margin: 0;
 }
