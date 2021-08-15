@@ -4,7 +4,7 @@ import { TreeGraph } from "./TreeGraph";
 export const CodeVisualizer = ({ visualizer, data }) => {
   return (
     <>
-    { visualizer === 'CODE' &&
+    { (visualizer === 'CODE' || visualizer === '') &&
       <Highlight className="language-javascript">
         { data }
       </Highlight>

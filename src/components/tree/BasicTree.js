@@ -4,7 +4,8 @@ import { SampleData } from '../../ds-utils/common/sampleData';
 import { GlobalContext } from "../../store/global-store";
 
 export const BasicTree = ({ modifyJson, DSInstance, title }) => {
-  const [nodeId, setNodeId] = useState('');
+  const [parentNodeId, setParentNodeId] = useState('');
+  const [subTreeHeadId, setSubTreeHeadId] = useState('');
   const [deletedNode, setDeletedNode] = useState(null);
   const { error, showError, hideError } = useContext(GlobalContext);
 
@@ -12,7 +13,8 @@ export const BasicTree = ({ modifyJson, DSInstance, title }) => {
     modifyJson(DSInstance.getJson());
     setDeletedNode(null);
     hideError();
-    setNodeId('')
+    setParentNodeId('');
+    setSubTreeHeadId('');
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [DSInstance])
 
@@ -23,7 +25,7 @@ export const BasicTree = ({ modifyJson, DSInstance, title }) => {
   };
 
   const pushData = () => {
-    const successful = DSInstance.insertNode(SampleData.getRandomData(), nodeId);
+    const successful = DSInstance.insertNode(SampleData.getRandomData(), parentNodeId);
 
     if (!successful) {
       showError('Unable to insert node. Probably invalid parent id provided.');
@@ -35,22 +37,26 @@ export const BasicTree = ({ modifyJson, DSInstance, title }) => {
     setDeletedNode(null);
   };
 
-  const setParentNode = (e) => {
-    setNodeId(e.currentTarget.value);
-  }
+  const setTargetNodeId = (e) => {
+    setParentNodeId(e.currentTarget.value);
+  };
 
-  // const popData = () => {
-  //   const toReturn = DSInstance.pop();
-  //   modifyJson(DSInstance.getJson());
+  const setTargetNodeToDeleteId = (e) => {
+    setSubTreeHeadId(e.currentTarget.value);
+  };
 
-  //   if (!toReturn) {
-  //     showError('No elements available to delete!');
-  //   } else {
-  //     resetError();
-  //   }
+  const popSubTree = () => {
+    const toReturn = DSInstance.deleteNodeWithChildren(subTreeHeadId);
+    modifyJson(DSInstance.getJson());
+
+    if (!toReturn) {
+      showError('No elements available to delete!');
+    } else {
+      resetError();
+    }
     
-  //   setDeletedNode(toReturn || {});
-  // };
+    setDeletedNode(toReturn || {});
+  };
 
   return (
     <div className="row">
@@ -58,8 +64,13 @@ export const BasicTree = ({ modifyJson, DSInstance, title }) => {
         <h2 className="mb-4">{title}</h2>
         <div className="input-group mb-3">
           <span className="input-group-text">Parent Node ID</span>
-          <input type="text" className="form-control" aria-label="Parent Node ID" aria-describedby="push-node-button" onChange={setParentNode} />
+          <input type="text" className="form-control" aria-label="Parent Node ID" aria-describedby="push-node-button" value={parentNodeId} onChange={setTargetNodeId} />
           <button className="btn btn-outline-secondary" type="button" id="push-node-button" onClick={pushData}>Push</button>
+        </div>
+        <div className="input-group mb-3">
+          <span className="input-group-text">Node ID</span>
+          <input type="text" className="form-control" aria-label="Node ID" aria-describedby="pop-node-button" value={subTreeHeadId} onChange={setTargetNodeToDeleteId} />
+          <button className="btn btn-outline-secondary" type="button" id="pop-node-button" onClick={popSubTree}>Pop Sub-Tree</button>
         </div>
         <div className="clearfix"></div>
         { deletedNode && <SubDetails title="Deleted Element:" json={deletedNode} /> }
