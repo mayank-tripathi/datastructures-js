@@ -6,6 +6,7 @@ import { GlobalContext } from "../../store/global-store";
 export const BasicTree = ({ modifyJson, DSInstance, title }) => {
   const [parentNodeId, setParentNodeId] = useState('');
   const [subTreeHeadId, setSubTreeHeadId] = useState('');
+  const [nodeToDeleteId, setNodeToDeleteId] = useState('');
   const [deletedNode, setDeletedNode] = useState(null);
   const { error, showError, hideError } = useContext(GlobalContext);
 
@@ -41,12 +42,29 @@ export const BasicTree = ({ modifyJson, DSInstance, title }) => {
     setParentNodeId(e.currentTarget.value);
   };
 
-  const setTargetNodeToDeleteId = (e) => {
+  const setTargetSubTreeId = (e) => {
     setSubTreeHeadId(e.currentTarget.value);
   };
 
+  const setTargetNodeToDeleteId = (e) => {
+    setNodeToDeleteId(e.currentTarget.value);
+  };
+
   const popSubTree = () => {
-    const toReturn = DSInstance.deleteNodeWithChildren(subTreeHeadId);
+    const toReturn = DSInstance.deleteSubTree(subTreeHeadId);
+    modifyJson(DSInstance.getJson());
+
+    if (!toReturn) {
+      showError('No elements available to delete!');
+    } else {
+      resetError();
+    }
+    
+    setDeletedNode(toReturn || {});
+  };
+
+  const popNode = () => {
+    const toReturn = DSInstance.deleteNode(nodeToDeleteId);
     modifyJson(DSInstance.getJson());
 
     if (!toReturn) {
@@ -69,8 +87,13 @@ export const BasicTree = ({ modifyJson, DSInstance, title }) => {
         </div>
         <div className="input-group mb-3">
           <span className="input-group-text">Node ID</span>
-          <input type="text" className="form-control" aria-label="Node ID" aria-describedby="pop-node-button" value={subTreeHeadId} onChange={setTargetNodeToDeleteId} />
-          <button className="btn btn-outline-secondary" type="button" id="pop-node-button" onClick={popSubTree}>Pop Sub-Tree</button>
+          <input type="text" className="form-control" aria-label="Node ID" aria-describedby="pop-subTree-button" value={subTreeHeadId} onChange={setTargetSubTreeId} />
+          <button className="btn btn-outline-secondary" type="button" id="pop-subTree-button" onClick={popSubTree}>Pop Sub-Tree</button>
+        </div>
+        <div className="input-group mb-3">
+          <span className="input-group-text">Node ID</span>
+          <input type="text" className="form-control" aria-label="Node ID" aria-describedby="pop-node-button" value={nodeToDeleteId} onChange={setTargetNodeToDeleteId} />
+          <button className="btn btn-outline-secondary" type="button" id="pop-node-button" onClick={popNode}>Pop Node</button>
         </div>
         <div className="clearfix"></div>
         { deletedNode && <SubDetails title="Deleted Element:" json={deletedNode} /> }

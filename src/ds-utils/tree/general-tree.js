@@ -75,7 +75,7 @@ export class GeneralTreeUtil {
     }
   }
 
-  deleteNodeWithChildren(id) {
+  deleteSubTree(id) {
     let targetNode = this.searchNodeById(id);
     const dataToReturn = this.getNestedDataFromNode(targetNode);
 
@@ -86,14 +86,42 @@ export class GeneralTreeUtil {
       } else {
         let parentNode = this.searchParentByChildId(id);
         
-        if (parentNode) {
-          parentNode.children.splice(parentNode.children.indexOf(targetNode), 1);
-          return dataToReturn;
-        } else {
-          console.error(`Unable to delete node with id: ${id}. Parent not found.`);
-          return false;
-        }
+        parentNode.children.splice(parentNode.children.indexOf(targetNode), 1);
+
+        return dataToReturn;
       }
+    } else {
+      console.error(`Unable to delete node with id: ${id}.`);
+      return false;
+    }
+  }
+
+  deleteNode(id) {
+    let targetNode = this.searchNodeById(id);
+
+    if (null !== targetNode) {
+      const dataToReturn = { id: targetNode.id, ...targetNode.data };
+
+      if (Object.is(targetNode, this.head)) {
+        if (targetNode.children.length > 0) {
+          console.error('Cannot delete the head of the tree. Delete all children first to delete the head.');
+          return false;
+        } else {
+          this.head = null;
+          return dataToReturn;
+        }
+      } else {
+        let targetChildren = targetNode.children;
+        let parentNode = this.searchParentByChildId(id);
+
+        parentNode.children.splice(parentNode.length - 1, 0, ...targetChildren)
+        parentNode.children.splice(parentNode.children.indexOf(targetNode), 1);
+
+        return dataToReturn;
+      }
+    } else {
+      console.error(`Unable to delete node with id: ${id}.`);
+      return false;
     }
   }
 
