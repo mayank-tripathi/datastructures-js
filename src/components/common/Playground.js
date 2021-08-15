@@ -33,8 +33,10 @@ export const Playground = () => {
       <div className="col-7 p-0 codeContainer">
         <CodeVisualizer visualizer={visualizer} data={json} />
       </div>
-      <div className="col-5">
-        <div className="col-12 my-3">
+      <div className="col-5 mt-3">
+        <h1>Data Structures Playground</h1>
+        <p>Please start by selecting a Data Structure below:</p>
+        <div className="col-12 my-4">
           <select className="form-select" aria-label="Select DS" defaultValue={ds} onClick={changeDs}>
             { getDSList(DS_MAP) }
           </select>

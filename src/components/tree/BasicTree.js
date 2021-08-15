@@ -16,6 +16,7 @@ export const BasicTree = ({ modifyJson, DSInstance, title }) => {
     hideError();
     setParentNodeId('');
     setSubTreeHeadId('');
+    setNodeToDeleteId('');
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [DSInstance])
 

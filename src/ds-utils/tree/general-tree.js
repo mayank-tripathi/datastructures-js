@@ -114,6 +114,10 @@ export class GeneralTreeUtil {
         let targetChildren = targetNode.children;
         let parentNode = this.searchParentByChildId(id);
 
+        for (let child of targetChildren) {
+          child.parent = parentNode.id;
+        }
+
         parentNode.children.splice(parentNode.length - 1, 0, ...targetChildren)
         parentNode.children.splice(parentNode.children.indexOf(targetNode), 1);
 
