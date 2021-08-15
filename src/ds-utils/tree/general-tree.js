@@ -173,6 +173,22 @@ export class GeneralTreeUtil {
     return true;
   }
 
+  getTreeDepth(start = this.head, depth = 0) {
+    if (null === start || start.children.length === 0) {
+      return depth;
+    }
+
+    depth += 1;
+
+    let childrenDepth = [];
+
+    start.children.forEach(child => {
+      childrenDepth.push(this.getTreeDepth(child, depth));
+    });
+
+    return childrenDepth.length ? Math.max( ...childrenDepth ) : depth;
+  }
+
   getJson(head = this.head, json = {}) {
     if (null !== head) {
       json.name = head.data.name;

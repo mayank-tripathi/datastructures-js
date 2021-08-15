@@ -10,10 +10,12 @@ export const BasicTree = ({ modifyJson, DSInstance, title }) => {
   const [nodeToMoveId, setNodeToMoveId] = useState("");
   const [newParentNodeId, setNewParentNodeId] = useState("");
   const [deletedNode, setDeletedNode] = useState(null);
+  const [depth, setDepth] = useState(0);
   const { error, showError, hideError } = useContext(GlobalContext);
 
   useEffect(() => {
     modifyJson(DSInstance.getJson());
+    setDepth(DSInstance.getTreeDepth());
     setDeletedNode(null);
     hideError();
     setParentNodeId("");
@@ -71,6 +73,7 @@ export const BasicTree = ({ modifyJson, DSInstance, title }) => {
     }
 
     modifyJson(DSInstance.getJson());
+    setDepth(DSInstance.getTreeDepth());
     setDeletedNode(null);
   };
 
@@ -84,6 +87,7 @@ export const BasicTree = ({ modifyJson, DSInstance, title }) => {
     }
 
     modifyJson(DSInstance.getJson());
+    setDepth(DSInstance.getTreeDepth());
     setDeletedNode(toReturn || {});
   };
 
@@ -97,6 +101,7 @@ export const BasicTree = ({ modifyJson, DSInstance, title }) => {
     }
 
     modifyJson(DSInstance.getJson());
+    setDepth(DSInstance.getTreeDepth());
     setDeletedNode(toReturn || {});
   };
 
@@ -110,6 +115,7 @@ export const BasicTree = ({ modifyJson, DSInstance, title }) => {
     }
 
     modifyJson(DSInstance.getJson());
+    setDepth(DSInstance.getTreeDepth());
     setDeletedNode(null);
   };
 
@@ -208,6 +214,10 @@ export const BasicTree = ({ modifyJson, DSInstance, title }) => {
           </button>
         </div>
         <div className="clearfix"></div>
+        <p>
+          <strong>Depth of the tree: </strong>
+          { depth }
+        </p>
         {deletedNode && (
           <SubDetails title="Deleted Element:" json={deletedNode} />
         )}
