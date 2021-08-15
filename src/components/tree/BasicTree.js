@@ -122,8 +122,9 @@ export const BasicTree = ({ modifyJson, DSInstance, title }) => {
   return (
     <div className="row">
       <div className="col">
-        <h2 className="mb-4">{title}</h2>
-        <div className="input-group mb-3">
+        <h2 className="mb-3">{title}</h2>
+        <aside>Click on the node to copy its ID.</aside>
+        <div className="input-group my-3">
           <span className="input-group-text">Parent Node ID</span>
           <input
             type="text"
