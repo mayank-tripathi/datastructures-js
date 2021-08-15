@@ -64,16 +64,54 @@ const createTree = (data, width) => {
 
   node
     .append("text")
+    .attr("class", "node-name")
     .attr("dy", "0.31em")
     .attr("x", (d) => (d.children ? -18 : 18))
     .attr("text-anchor", (d) => (d.children ? "end" : "start"))
-    .text((d) => d.data.name)
+    .text(function (d) {
+      const context = d.data.value;
+      this.dataset.context = JSON.stringify(context);
+      return d.data.name;
+    })
     .clone(true)
     .lower()
     .attr("stroke", "white")
     .attr("stroke-width", 3);
 
   return svg.node();
+};
+
+const copyToClipboard = async (text) => {
+  const clipboardPermission = await navigator.permissions.query({ name: 'clipboard-write' });
+
+  if (clipboardPermission.state === 'granted' || clipboardPermission.state === 'prompt') {
+    return navigator.clipboard.writeText(text);
+  }
+
+  return Promise.reject('Clipboard permissions not granted.');
+};
+
+const showTooltip = function (d) {
+  d.stopPropagation();
+
+  const nodeData = JSON.parse(this.dataset.context);
+
+  d3.select("#tooltip")
+    .style("left", d.pageX + 15 + "px")
+    .style("right", "auto")
+    .style("top", d.pageY + 15 + "px")
+    .style("opacity", 1)
+    .html(
+      `<pre>${JSON.stringify( nodeData || {}, null,"   ")}</pre>`
+    );
+
+  copyToClipboard(nodeData.id)
+    .then(value => {
+      console.log(value);
+    })
+    .catch(err => {
+      console.error(err);
+    });
 };
 
 export const TreeGraph = ({ treeData }) => {
@@ -106,22 +144,8 @@ export const TreeGraph = ({ treeData }) => {
   }, [width, treeData]);
 
   useLayoutEffect(() => {
-    d3.selectAll("circle").on("click", function (d) {
-      d.stopPropagation();
-
-      d3.select("#tooltip")
-        .style("left", d.pageX + 15 + "px")
-        .style("right", "auto")
-        .style("top", d.pageY + 15 + "px")
-        .style("opacity", 1)
-        .html(
-          `<pre>${JSON.stringify(
-            JSON.parse(this.dataset.context) || {},
-            null,
-            "   "
-          )}</pre>`
-        );
-    });
+    d3.selectAll("circle").on("click", showTooltip);
+    d3.selectAll(".node-name").on("click", showTooltip);
 
     hideTooltip();
   }, [treeDiagram, hideTooltip]);

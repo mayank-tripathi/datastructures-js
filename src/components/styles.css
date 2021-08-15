@@ -20,7 +20,7 @@
   height: 100%;
 }
 
-.codeContainer .graphContainer svg circle {
+.codeContainer .graphContainer svg circle,  .codeContainer .graphContainer svg text{
   cursor: pointer;
 }
 
