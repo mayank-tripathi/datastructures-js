@@ -129,6 +129,50 @@ export class GeneralTreeUtil {
     }
   }
 
+  moveNode(id, newParentId) {
+    const targetNode = this.searchNodeById(id);
+    const newParentNode = this.searchNodeById(newParentId);
+
+    if (null === targetNode) {
+      console.error(`Target node with id ${id} not found in the tree.`);
+      return false;
+    } else if (null === newParentNode) {
+      console.error(`New parent node with id ${newParentId} not found in the tree.`);
+      return false;
+    } else if (targetNode.parent === newParentId) {
+      console.info(`Node with id ${id} is already with the provided parent with id ${newParentId}.`);
+      return true;
+    } else {
+      if (this.validateHierarchy(id, newParentId)) {
+        const targetCurrentParent = this.searchParentByChildId(id);
+        targetCurrentParent.children.splice(targetCurrentParent.children.indexOf(targetNode), 1);
+
+        targetNode.parent = newParentNode.id;
+
+        newParentNode.children.push(targetNode);
+
+        return true;
+      } else {
+        console.error(`Unable to move. New parent with id ${newParentId} is a child of node with id ${id}.`);
+        return false;
+      }
+    }
+  }
+
+  validateHierarchy(id, targetParentId) {
+    let start = this.searchNodeById(targetParentId);
+
+    while(start.parent) {
+      if (id === start.parent) {
+        return false;
+      } else {
+        start = this.searchNodeById(start.parent);
+      }
+    }
+
+    return true;
+  }
+
   getJson(head = this.head, json = {}) {
     if (null !== head) {
       json.name = head.data.name;

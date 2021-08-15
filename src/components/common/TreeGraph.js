@@ -106,9 +106,6 @@ const showTooltip = function (d) {
     );
 
   copyToClipboard(nodeData.id)
-    .then(value => {
-      console.log(value);
-    })
     .catch(err => {
       console.error(err);
     });
