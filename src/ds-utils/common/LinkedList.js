@@ -1,7 +1,7 @@
 class Node {
-  constructor(d, n) {
+  constructor(d) {
     this.data = d;
-    this.next = n;
+    this.next = null;
   }
 }
 
@@ -9,10 +9,31 @@ export class LinkedList {
   constructor() {
     this.head = null;
     this.tail = null;
+    this.length = 0;
+  }
+
+  nodeAtIndex(index) {
+    if (index === 0) {
+      return this.head;
+    } else if (index === this.length - 1) {
+      return this.tail;
+    } else if (index > 0 && index < this.length -1) {
+      let counter = 1;
+      let currentNode = this.head.next;
+
+      while(counter <= index) {
+        currentNode = currentNode.next;
+        counter += 1;
+      }
+
+      return currentNode;
+    } else {
+      return null;
+    }
   }
 
   insertAtTail(data) {
-    const nodeToInsert = new Node(data, null);
+    const nodeToInsert = new Node(data);
 
     if (null !== this.tail) {
       this.tail.next = nodeToInsert;
@@ -23,16 +44,39 @@ export class LinkedList {
     if (null === this.head) {
       this.head = nodeToInsert;
     }
+
+    this.length += 1;
   }
 
   insertAtHead(data) {
-    const nodeToInsert = new Node(data, null);
+    const nodeToInsert = new Node(data);
 
     if (null === this.head && null === this.tail) {
       this.head = this.tail = nodeToInsert;
     } else {
       nodeToInsert.next = this.head;
       this.head = nodeToInsert;
+    }
+
+    this.length += 1;
+  }
+
+  insertAtIndex(index, data) {
+    if (index > 0 && index < this.length) {
+      let currentNode = this.nodeAtIndex(index);
+      const nodeToInsert = new Node(data);
+
+      nodeToInsert.next = currentNode.next;
+      currentNode.next = nodeToInsert;
+
+      this.length += 1;
+    } else if (index === 0) {
+      this.insertAtHead(data);
+    } else if (index === this.length) {
+      this.insertAtTail(data);
+    } else {
+      console.error("Invalid index provided!!", index);
+      return false;
     }
   }
 
@@ -45,6 +89,8 @@ export class LinkedList {
       if (null === this.head) { // Was last node
         this.tail = null;
       }
+
+      this.length -= 1;
       
       return toReturn;
     } else {
@@ -67,28 +113,24 @@ export class LinkedList {
     
       last.next = null;
       this.tail = last;
+
+      this.length -= 1;
     } else { // Just one node
       toReturn = JSON.parse(JSON.stringify(last.data))
       this.head = null;
       this.tail = null;
+
+      this.length -= 1;
     }
 
     return toReturn;
   }
 
-  size() {
-    if (null !== this.head) {
-      let count = 0;
-      let start = this.head;
-      
-      while (start !== null) {
-        count += 1;
-        start = start.next;
-      }
+  deleteAtIndex(index) {}
 
-      return count;
-    } else {
-      return 0;
-    }
+  indexOf(value) {}
+
+  size() {
+    return this.length;
   }
 }
